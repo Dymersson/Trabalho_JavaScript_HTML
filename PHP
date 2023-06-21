@@ -1,0 +1,33 @@
+<?php
+// Recuperar os dados enviados via POST
+$quantidade1 = $_POST['quantidade1'];
+$quantidade2 = $_POST['quantidade2'];
+$quantidade3 = $_POST['quantidade3'];
+$quantidade4 = $_POST['quantidade4'];
+$quantidade5 = $_POST['quantidade5'];
+$valorTotal = $_POST['valorTotal'];
+
+// Conectar ao banco de dados MySQL
+$servername = "localhost";
+$username = "dydy";
+$password = "3306";
+$dbname = "USE orcamento_loja_online;";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar a conexão
+if ($conn->connect_error) {
+  die("Falha na conexão com o banco de dados: " . $conn->connect_error);
+}
+
+// Inserir os dados no banco de dados
+$sql = "INSERT INTO orcamentos (quantidade1, quantidade2, quantidade3, quantidade4, quantidade5, valorTotal) VALUES ('$quantidade1', '$quantidade2', '$quantidade3', '$quantidade4', '$quantidade5', '$valorTotal')";
+
+if ($conn->query($sql) === TRUE) {
+  echo "Orçamento armazenado no banco de dados com sucesso!";
+} else {
+  echo "Erro ao armazenar o orçamento no banco de dados: " . $conn->error;
+}
+
+$conn->close();
+?>
