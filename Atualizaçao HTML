@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Orçamentação</title>
+  <style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center
+        
+    }
+    h1 {
+        text-align: center;
+        filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
+        color:rgb(13, 99, 32)
+        
+    }
+    .produto-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .produto {
+      width: 180px;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 1px;
+      text-align: center;
+    }
+
+    .produto img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .produto p {
+      margin: 0;
+    }
+    .botao-calcular{
+      text-align: center;
+      margin-left: 450px;
+      margin-top: 30px;
+      filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
+      color:rgba(240, 47, 13, 0.25)
+    }
+  </style>
+</head>
+<body>
+  <h1>Orçamentação de Produtos Loja Online</h1>
+
+  <form action="processar.php" method="POST">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+
+    <div class="produto-container">
+      <div class="produto">
+        <img src="https://cdn.dooca.store/117/products/bolsa-feminina-rosa_640x640+fill_ffffff.jpg?v=1626967527&webp=0" alt="Produto 1">
+        <p>Bolsa Feminina</p>
+        <p>R$ 319,90</p>
+        <label for="quantidade1">Quantidade:</label>
+        <input type="number" id="quantidade1" name="quantidade1" min="0"><br>
+      </div>
+
+      <div class="produto">
+        <img src="https://cdn.shoppub.io/cdn-cgi/image/w=1000,h=1000,q=80,f=auto/usereise/media/uploads/produtos/foto/ulfezzoa/5-1.jpg" alt="Produto 2">
+        <p>Tênis Masculino Whisky</p>
+        <p>R$ 199,90</p>
+        <label for="quantidade2">Quantidade:</label>
+        <input type="number" id="quantidade2" name="quantidade2" min="0"><br>
+      </div>
+
+      <div class="produto">
+        <img src="https://cdn.awsli.com.br/600x700/809/809422/produto/76981748/c121db68d8.jpg" alt="Produto 3">
+        <p>Calça Jegger Masculina</p>
+        <p>R$ 149,90</p>
+        <label for="quantidade3">Quantidade:</label>
+        <input type="number" id="quantidade3" name="quantidade3" min="0"><br>
+      </div>
+
+      <div class="produto">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd5NbYvtExvZzITZn-_u3arRlemQ1zg5YrhA&usqp=CAU" alt="Produto 4">
+        <p>Gargantilha Dourada</p>
+        <p>R$ 99,90</p>
+        <label for="quantidade4">Quantidade:</label>
+        <input type="number" id="quantidade4" name="quantidade4" min="0"><br>
+      </div>
+
+      <div class="produto">
+        <img src="https://www.safira.com.br/cdn/imagens/produtos/det/anel-de-ouro-18k-com-citrino-oval-e-pontos-de-luz-em-topazios-brancos-cde382007d99554ccc63f27bc1209dbe.jpg" alt="Produto 5">
+        <p>Anel de Ouro</p>
+        <p>R$ 249,90</p>
+        <label for="quantidade5">Quantidade:</label>
+        <input type="number" id="quantidade5" name="quantidade5" min="0"><br>
+      </div>
+    </div>
+   
+  </style>
+  <script>
+    function calcularValor() {
+      // Obter os valores das quantidades de cada produto
+      var quantidade1 = parseInt(document.getElementById('quantidade1').value);
+      var quantidade2 = parseInt(document.getElementById('quantidade2').value);
+      var quantidade3 = parseInt(document.getElementById('quantidade3').value);
+      var quantidade4 = parseInt(document.getElementById('quantidade4').value);
+      var quantidade5 = parseInt(document.getElementById('quantidade5').value);
+
+      // Obter o valor de cada produto
+      var valorProduto1 = 319.90;
+      var valorProduto2 = 199.90;
+      var valorProduto3 = 149.90;
+      var valorProduto4 = 99.90;
+      var valorProduto5 = 249.90;
+
+      // Calcular o valor total do orçamento
+      var valorTotal = quantidade1 * valorProduto1 +
+                      quantidade2 * valorProduto2 +
+                      quantidade3 * valorProduto3 +
+                      quantidade4 * valorProduto4 +
+                      quantidade5 * valorProduto5;
+
+      // Exibir o valor total
+      alert("Valor total do orçamento: R$ " + valorTotal.toFixed(2));
+      // Enviar os dados para o servidor e armazenar no banco de dados MySQL
+      var xhr = new XMLHttpRequest();
+      var url = "processar.php";
+      var params = "quantidade1=" + quantidade1 +
+                   "&quantidade2=" + quantidade2 +
+                   "&quantidade3=" + quantidade3 +
+                   "&quantidade4=" + quantidade4 +
+                   "&quantidade5=" + quantidade5 +
+                   "&valorTotal=" + valorTotal;
+
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          console.log(xhr.responseText);
+        }
+      };
+      xhr.send(params);
+    }
+  </script>
+</head>
+<body>
+
+  <form>
+    <!-- Campos do formulário aqui -->
+
+    <input type="button" value="Calcular valor" class="botao-calcular" onclick="calcularValor()">
+  </form>
+</body>
+</html>
